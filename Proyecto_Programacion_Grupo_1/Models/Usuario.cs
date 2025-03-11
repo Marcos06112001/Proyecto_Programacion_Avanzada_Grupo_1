@@ -9,20 +9,20 @@ namespace Proyecto_Programacion_Grupo_1.Models
 
         [Required]
         [StringLength(100)]
-        public string Nombre { get; set; }
+        public string? Nombre { get; set; }
 
         [Required]
         [EmailAddress]
-        public string Correo { get; set; }
+        public string? Correo { get; set; }
 
         [Required]
-        public string Contraseña { get; set; }
+        public string? Contraseña { get; set; }
 
-        public string Rol { get; set; } // "Admin" o "Usuario"
+        public string? Rol { get; set; } // "Admin" o "Usuario"
 
-        public ICollection<ReservaClase> Reservas { get; set; }
-        public ICollection<Compra> Compras { get; set; }
-        public ICollection<Pago> Pagos { get; set; }
+        public ICollection<ReservaClase>? Reservas { get; set; }
+        public ICollection<Compra>? Compras { get; set; }
+        public ICollection<Pago>? Pagos { get; set; }
 
     }
 }

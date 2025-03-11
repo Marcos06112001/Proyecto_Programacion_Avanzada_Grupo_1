@@ -1,0 +1,28 @@
+﻿@model Proyecto_Programacion_Grupo_1.Models.Usuario
+
+@{
+    ViewData["Title"] = "Detalles del Usuario";
+}
+
+<h2>Detalles del Usuario</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Nombre: @Model.Nombre</h4>
+        <p><strong>Correo:</strong> @Model.Correo</p>
+        <p>
+            <strong>Rol:</strong>
+            @if (Model.Rol == "Admin")
+            {
+                <span class="badge bg-danger">Administrador</span>
+            }
+            else
+            {
+                <span class="badge bg-primary">Usuario</span>
+            }
+        </p>
+    </div>
+</div>
+
+<a asp-action="Edit" asp-route-id="@Model.UsuarioID" class="btn btn-warning">Editar</a>
+<a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
