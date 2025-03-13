@@ -9,7 +9,7 @@ namespace Proyecto_Programacion_Grupo_1.Models
 
         [Required]
         [StringLength(200)]
-        public string Nombre { get; set; }
+        public string? Nombre { get; set; }
 
         [Required]
         public decimal Precio { get; set; }

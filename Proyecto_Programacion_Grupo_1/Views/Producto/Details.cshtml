@@ -1,0 +1,14 @@
+﻿@model Proyecto_Programacion_Grupo_1.Models.Producto
+
+@{
+    ViewData["Title"] = "Detalles del Producto";
+}
+
+<h2>Detalles del Producto</h2>
+
+<p><strong>Nombre:</strong> @Model.Nombre</p>
+<p><strong>Precio:</strong> @Model.Precio</p>
+<p><strong>Stock:</strong> @Model.Stock</p>
+
+<a asp-action="Edit" asp-route-id="@Model.ProductoID" class="btn btn-warning">Editar</a>
+<a asp-action="Index" class="btn btn-secondary">Volver</a>
