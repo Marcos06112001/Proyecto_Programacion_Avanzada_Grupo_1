@@ -50,7 +50,7 @@ namespace Proyecto_Programacion_Grupo_1.Migrations
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Correo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Contraseña = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Rol = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Rol = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

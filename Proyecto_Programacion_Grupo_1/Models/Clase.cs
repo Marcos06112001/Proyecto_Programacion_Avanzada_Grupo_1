@@ -14,6 +14,6 @@ namespace Proyecto_Programacion_Grupo_1.Models
         public int AcademiaID { get; set; }
 
         [ForeignKey("AcademiaID")]
-        public Academia Academia { get; set; }
+        public Academia? Academia { get; set; }
     }
 }

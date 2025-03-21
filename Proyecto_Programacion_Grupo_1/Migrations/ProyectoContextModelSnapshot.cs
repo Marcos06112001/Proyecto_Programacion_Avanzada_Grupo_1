@@ -230,7 +230,6 @@ namespace Proyecto_Programacion_Grupo_1.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Rol")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UsuarioID");

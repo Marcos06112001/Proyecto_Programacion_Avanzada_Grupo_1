@@ -11,6 +11,6 @@ namespace Proyecto_Programacion_Grupo_1.Models
         public string Ubicacion { get; set; }
         public string Horario { get; set; }
 
-        public ICollection<Clase> Clases { get; set; }
+        public ICollection<Clase>? Clases { get; set; }
     }
 }

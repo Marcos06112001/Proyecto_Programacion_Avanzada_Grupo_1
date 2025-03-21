@@ -12,7 +12,7 @@ using Proyecto_Programacion_Grupo_1.Models;
 namespace Proyecto_Programacion_Grupo_1.Migrations
 {
     [DbContext(typeof(ProyectoContext))]
-    [Migration("20250310222729_Inicial")]
+    [Migration("20250320034453_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -233,7 +233,6 @@ namespace Proyecto_Programacion_Grupo_1.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Rol")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UsuarioID");

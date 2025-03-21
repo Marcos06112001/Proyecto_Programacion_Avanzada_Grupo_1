@@ -14,7 +14,7 @@ namespace Proyecto_Programacion_Grupo_1.Models
 
         public int UsuarioID { get; set; }
         [ForeignKey("UsuarioID")]
-        public Usuario Usuario { get; set; }
+        public Usuario? Usuario { get; set; }
 
     }
 }
