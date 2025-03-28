@@ -1,0 +1,29 @@
+﻿@model Proyecto_Programacion_Grupo_1.Models.ReservaClase
+
+@{
+    ViewData["Title"] = "Detalles de la reserva";
+}
+
+<h1>Detalles de la Reserva</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ReservaID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ClaseID)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UsuarioID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FechaReserva)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ReservaID" class="btn btn-warning">Editar</a> |
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</div>
