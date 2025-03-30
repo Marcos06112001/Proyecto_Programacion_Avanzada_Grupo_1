@@ -12,7 +12,7 @@ using Proyecto_Programacion_Grupo_1.Models;
 namespace Proyecto_Programacion_Grupo_1.Migrations
 {
     [DbContext(typeof(ProyectoContext))]
-    [Migration("20250328052946_Inicial")]
+    [Migration("20250330201645_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />

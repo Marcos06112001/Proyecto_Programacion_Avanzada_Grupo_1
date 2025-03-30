@@ -1,0 +1,62 @@
+﻿@model Proyecto_Programacion_Grupo_1.Models.Pago
+
+@{
+    ViewData["Title"] = "Registrar Pago";
+}
+
+<div class="card shadow mt-4">
+    <div class="card-header bg-success text-white py-3">
+        <h3 class="m-0"><i class="fas fa-plus-circle me-2"></i>@ViewData["Title"]</h3>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" class="row g-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="col-md-6">
+                <label asp-for="UsuarioID" class="form-label">Usuario</label>
+                <select asp-for="UsuarioID" class="form-select" asp-items="ViewBag.UsuarioID">
+                    <option value="">Seleccione un usuario</option>
+                </select>
+                <span asp-validation-for="UsuarioID" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Monto" class="form-label"></label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input asp-for="Monto" class="form-control" />
+                </div>
+                <span asp-validation-for="Monto" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="MetodoPago" class="form-label">Método de Pago</label>
+                <select asp-for="MetodoPago" class="form-select" asp-items="ViewBag.MetodosPago">
+                    <option value="">Seleccione método</option>
+                </select>
+                <span asp-validation-for="MetodoPago" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="FechaPago" class="form-label"></label>
+                <input asp-for="FechaPago" class="form-control" type="date" />
+                <span asp-validation-for="FechaPago" class="text-danger"></span>
+            </div>
+
+            <div class="col-12 mt-4">
+                <button type="submit" class="btn btn-primary me-2">
+                    <i class="fas fa-save me-1"></i> Guardar
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Volver
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,59 @@
+﻿@model Proyecto_Programacion_Grupo_1.Models.Compra
+
+@{
+    ViewData["Title"] = "Registrar Compra";
+}
+
+<div class="card shadow mt-4">
+    <div class="card-header bg-success text-white py-3">
+        <h3 class="m-0"><i class="fas fa-shopping-cart me-2"></i>@ViewData["Title"]</h3>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" class="row g-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="col-md-6">
+                <label asp-for="UsuarioID" class="form-label">Usuario</label>
+                <select asp-for="UsuarioID" class="form-select" asp-items="ViewBag.UsuarioID">
+                    <option value="">Seleccione un usuario</option>
+                </select>
+                <span asp-validation-for="UsuarioID" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="ProductoID" class="form-label">Producto</label>
+                <select asp-for="ProductoID" class="form-select" asp-items="ViewBag.ProductoID">
+                    <option value="">Seleccione un producto</option>
+                </select>
+                <span asp-validation-for="ProductoID" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Cantidad" class="form-label"></label>
+                <input asp-for="Cantidad" class="form-control" />
+                <span asp-validation-for="Cantidad" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="FechaCompra" class="form-label"></label>
+                <input asp-for="FechaCompra" class="form-control" type="date" />
+                <span asp-validation-for="FechaCompra" class="text-danger"></span>
+            </div>
+
+            <div class="col-12 mt-4">
+                <button type="submit" class="btn btn-primary me-2">
+                    <i class="fas fa-save me-1"></i> Registrar Compra
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Volver
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

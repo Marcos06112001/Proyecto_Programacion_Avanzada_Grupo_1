@@ -18,6 +18,6 @@ namespace Proyecto_Programacion_Grupo_1.Models
         public DateTime FechaPago { get; set; }
 
         [ForeignKey("UsuarioID")]
-        public Usuario Usuario { get; set; }
+        public Usuario? Usuario { get; set; }
     }
 }

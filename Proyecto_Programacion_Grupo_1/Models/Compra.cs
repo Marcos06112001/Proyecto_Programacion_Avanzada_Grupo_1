@@ -15,10 +15,10 @@ namespace Proyecto_Programacion_Grupo_1.Models
         public DateTime FechaCompra { get; set; }
 
         [ForeignKey("UsuarioID")]
-        public Usuario Usuario { get; set; }
+        public Usuario? Usuario { get; set; }
 
         [ForeignKey("ProductoID")]
-        public Producto Producto { get; set; }
+        public Producto? Producto { get; set; }
 
     }
 }
