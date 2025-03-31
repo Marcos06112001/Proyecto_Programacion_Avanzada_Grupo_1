@@ -1,0 +1,30 @@
+﻿@model Proyecto_Programacion_Grupo_1.Models.Membresia
+
+@{
+    ViewData["Title"] = "Crear Membresía";
+}
+
+<h1>Crear Membresía</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Tipo" class="control-label"></label>
+        <select asp-for="Tipo" class="form-control">
+            <option value="Mensual">Mensual</option>
+            <option value="Trimestral">Trimestral</option>
+            <option value="Anual">Anual</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Precio" class="control-label"></label>
+        <input asp-for="Precio" class="form-control" type="number" step="0.01" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UsuarioID" class="control-label"></label>
+        <select asp-for="UsuarioID" asp-items="ViewBag.Usuarios" class="form-control"></select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Crear</button>
+</form>

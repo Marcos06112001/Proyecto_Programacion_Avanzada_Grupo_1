@@ -1,0 +1,27 @@
+﻿@model Proyecto_Programacion_Grupo_1.Models.Membresia
+
+@{
+    ViewData["Title"] = "Eliminar Membresía";
+}
+
+<h1>Eliminar Membresía</h1>
+
+<h3>¿Estás seguro de que deseas eliminar esta membresía?</h3>
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Tipo)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Tipo)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Precio)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Precio)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Usuario)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Usuario)</dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="MembresiaID" />
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

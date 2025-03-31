@@ -1,0 +1,33 @@
+﻿@model Proyecto_Programacion_Grupo_1.Models.Membresia
+
+@{
+    ViewData["Title"] = "Editar Membresía";
+}
+
+<h1>Editar Membresía</h1>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="MembresiaID" />
+
+    <div class="form-group">
+        <label asp-for="Tipo" class="control-label"></label>
+        <select asp-for="Tipo" class="form-control">
+            <option value="Mensual">Mensual</option>
+            <option value="Trimestral">Trimestral</option>
+            <option value="Anual">Anual</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Precio" class="control-label"></label>
+        <input asp-for="Precio" class="form-control" type="number" step="0.01" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UsuarioID" class="control-label"></label>
+        <select asp-for="UsuarioID" asp-items="ViewBag.Usuarios" class="form-control"></select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
