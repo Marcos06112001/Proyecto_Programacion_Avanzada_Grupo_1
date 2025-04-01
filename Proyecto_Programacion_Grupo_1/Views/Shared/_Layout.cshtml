@@ -1,103 +1,171 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Proyecto_Programacion_Grupo_1</title>
+    <title>@ViewData["Title"] - SportWell 2025</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tus archivos CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />//
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Proyecto_Programacion_Grupo_1.styles.css" asp-append-version="true" />
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-gradient-primary">
-            <div class="container-fluid">
-                <a class="navbar-brand text-white font-weight-bold" asp-area="" asp-controller="Home" asp-action="Index">Proyecto Programación Grupo 1</a>
+    <!-- Fondo con imagen -->
+    <div class="background-image"></div>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+    <!-- Overlay para mejor legibilidad -->
+    <div class="background-overlay"></div>
 
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">Usuarios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Producto" asp-action="Index">Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Academia" asp-action="Index">Academia</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Clase" asp-action="Index">Clases</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Membresia" asp-action="Index">Membresia</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ReservaClase" asp-action="Index">Reservas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Compra" asp-action="Index">Compras</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pago" asp-action="Index">Pagos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <!-- Menú Lateral -->
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3 class="brand">
+                    <i class="fas fa-dumbbell"></i>
+                    <span>SportWell</span>
+                </h3>
+                <div class="user-profile">
+                    <img src="https://via.placeholder.com/40" alt="Usuario">
+                    <span>Admin</span>
                 </div>
-                <!-- Botón de regreso añadido aquí -->
-                <button onclick="window.history.back()" class="btn btn-link text-white me-2" title="Regresar">
-                    <i class="bi-box-arrow-left fs-4"></i>
-                </button>
             </div>
-        </nav>
-    </header>
 
-    <!-- Asegúrate de tener este enlace en tu layout principal o aquí mismo -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+            <ul class="sidebar-menu">
+                <li>
+                    <a asp-controller="Home" asp-action="Index" class="active">
+                        <i class="fas fa-home"></i>
+                        <span>Inicio</span>
+                    </a>
+                </li>
+                <li class="menu-category">Gestión</li>
+                <li>
+                    <a asp-controller="Usuario" asp-action="Index">
+                        <i class="fas fa-users"></i>
+                        <span>Usuarios</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Producto" asp-action="Index">
+                        <i class="fas fa-tshirt"></i>
+                        <span>Productos</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Academia" asp-action="Index">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Academia</span>
+                    </a>
+                </li>
 
-    <div class="container mt-5">
-        <main role="main" class="pb-3">
-            <!-- Introducción -->
-            <section class="text-center">
-                <h2 class="text-primary mb-4">Bienvenido al Proyecto de Programación Grupo 1</h2>
-                <p class="lead">
-                    Este sistema está diseñado para gestionar actividades de usuarios, permitiendo un control más eficiente en la administración.
-                    La plataforma proporciona funcionalidades como el manejo de usuarios, acceso a información importante, y privacidad asegurada.
-                    ¡Explora y mejora tu experiencia!
-                </p>
-            </section>
+                <li class="menu-category">Actividades</li>
+                <li>
+                    <a asp-controller="Clase" asp-action="Index">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Clases</span>
+                        <span class="badge bg-primary">5</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="ReservaClase" asp-action="Index">
+                        <i class="fas fa-bookmark"></i>
+                        <span>Reservas</span>
+                    </a>
+                </li>
 
-            <!-- Imagen -->
-            <section class="my-5 text-center">
-                <img src="https://www.anahuac.mx/mexico/sites/default/files/noticias/Foro-virtual-El-deporte-dentro-y-fuera-de-la-cancha-2.jpg" class="img-fluid rounded shadow" alt="Deporte y bienestar" style="max-width: 15%;" />
-            </section>
+                <li class="menu-category">Comercio</li>
+                <li>
+                    <a asp-controller="Membresia" asp-action="Index">
+                        <i class="fas fa-id-card"></i>
+                        <span>Membresías</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Compra" asp-action="Index">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Compras</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Pago" asp-action="Index">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Pagos</span>
+                    </a>
+                </li>
+            </ul>
 
-            @RenderBody()
-        </main>
+            <div class="sidebar-footer">
+                <a asp-controller="Home" asp-action="Privacy">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Privacidad</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Contenido Principal -->
+        <div class="main-content">
+            <header class="content-header">
+                <button class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="header-actions">
+                    <button onclick="window.history.back()" class="btn-modern">
+                        <i class="fas fa-arrow-left me-1"></i> Regresar
+                    </button>
+                </div>
+            </header>
+
+            <div class="container-fluid">
+                <main role="main" class="pb-3">
+                    <!-- Hero Section con contenido transparente -->
+                    <section class="hero-section hover-scale">
+                        <h1 class="display-5 fw-bold mb-3">Sistema Deporte y Bienestar 2025</h1>
+                        <p class="lead mb-4">
+                            Plataforma de última generación para la gestión integral de centros deportivos
+                            con tecnología de vanguardia y diseño innovador.
+                        </p>
+                    </section>
+
+                    @RenderBody()
+                </main>
+            </div>
+
+            <footer class="content-footer">
+                <div class="container">
+                    &copy; 2025 - SportWell - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
+                </div>
+            </footer>
+        </div>
     </div>
 
-   <!-- <footer class="footer text-center bg-dark text-white py-4">
-        <div class="container">
-            &copy; 2025 - Proyecto Programación Grupo 1 - <a href="#" class="text-light">Privacy</a>
-        </div>
-    </footer>-->
-
+    <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.11.4/dist/gsap.min.js"></script>
+
+    <script>
+        // Toggle del menú lateral
+        document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('collapsed');
+            document.querySelector('.main-content').classList.toggle('expanded');
+        });
+
+        // Animaciones GSAP
+        gsap.from(".sidebar", {duration: 0.8, x: -50, opacity: 0, ease: "power2.out"});
+        gsap.from(".hero-section", {duration: 1, y: 30, opacity: 0, delay: 0.3, ease: "back.out(1.7)"});
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
