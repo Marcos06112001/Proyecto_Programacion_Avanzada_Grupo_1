@@ -16,6 +16,9 @@
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+
+    <!-- Aquí agregamos la sección de Scripts -->
+    @RenderSection("Scripts", required: false)
 </head>
 <body>
     <!-- Sidebar -->
@@ -34,7 +37,7 @@
             <li><a asp-controller="Producto" asp-action="Index"><i class="fas fa-box"></i> Productos</a></li>
             <li><a asp-controller="Academia" asp-action="Index"><i class="fas fa-graduation-cap"></i> Academia</a></li>
             <li class="menu-category">Actividades</li>
-            <li><a asp-controller="Clase" asp-action="Index"><i class="fas fa-calendar-alt"></i> Clases <span class="badge bg-primary">5</span></a></li>
+            <li><a asp-controller="Clase" asp-action="Index"><i class="fas fa-calendar-alt"></i> Clases <span class="badge bg-primary"></span></a></li>
             <li><a asp-controller="ReservaClase" asp-action="Index"><i class="fas fa-bookmark"></i> Reservas</a></li>
             <li class="menu-category">Comercio</li>
             <li><a asp-controller="Membresia" asp-action="Index"><i class="fas fa-id-card"></i> Membresías</a></li>
