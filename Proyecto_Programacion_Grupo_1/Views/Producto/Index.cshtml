@@ -4,34 +4,195 @@
     ViewData["Title"] = "Lista de Productos";
 }
 
-<h2>Lista de Productos</h2>
+<style>
+    /* Estilos generales */
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Crear Nuevo Producto</a>
-</p>
+    h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-weight: 600;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #6c5ce7;
+        display: inline-block;
+    }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Precio</th>
-            <th>Stock</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Nombre</td>
-                <td>@item.Precio</td>
-                <td>@item.Stock</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ProductoID" class="btn btn-warning">Editar</a>
-                    <a asp-action="Details" asp-route-id="@item.ProductoID" class="btn btn-info">Detalles</a>
-                    <a asp-action="Delete" asp-route-id="@item.ProductoID" class="btn btn-danger">Eliminar</a>
-                </td>
-            </tr>
+    /* Estilos para la tabla */
+    .table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        margin: 25px 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: white;
+    }
+
+        .table thead th {
+            background-color: #6c5ce7;
+            color: white;
+            font-weight: 500;
+            padding: 15px;
+            border: none;
+            text-align: left;
         }
-    </tbody>
-</table>
+
+        .table tbody tr {
+            transition: all 0.2s ease;
+        }
+
+            .table tbody tr:hover {
+                background-color: rgba(108, 92, 231, 0.05);
+            }
+
+        .table td {
+            padding: 14px 16px;
+            border-top: 1px solid #e9ecef;
+            vertical-align: middle;
+        }
+
+    /* Estilos para botones */
+    .btn {
+        border-radius: 20px;
+        padding: 6px 14px;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: none !important;
+        margin-right: 6px;
+    }
+
+    .btn-primary {
+        background-color: #6c5ce7;
+        border-color: #6c5ce7;
+    }
+
+        .btn-primary:hover {
+            background-color: #5649c0;
+            border-color: #5649c0;
+        }
+
+    .btn-warning {
+        background-color: #f39c12;
+        border-color: #f39c12;
+        color: white;
+    }
+
+    .btn-info {
+        background-color: #00cec9;
+        border-color: #00cec9;
+        color: white;
+    }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        border-color: #e74c3c;
+    }
+
+    /* Efectos hover para botones */
+    .btn-warning:hover {
+        background-color: #d68910;
+        border-color: #d68910;
+    }
+
+    .btn-info:hover {
+        background-color: #00b5ad;
+        border-color: #00b5ad;
+    }
+
+    .btn-danger:hover {
+        background-color: #c0392b;
+        border-color: #c0392b;
+    }
+
+    /* Contenedor principal */
+    .container-productos {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        margin-top: 20px;
+    }
+
+    /* Estilos para precios */
+    .precio-producto {
+        color: #2ecc71;
+        font-weight: 600;
+    }
+
+    /* Estilos para stock */
+    .stock-producto {
+        font-weight: 500;
+    }
+
+    .stock-bajo {
+        color: #e74c3c;
+    }
+
+    .stock-medio {
+        color: #f39c12;
+    }
+
+    .stock-alto {
+        color: #2ecc71;
+    }
+
+    /* Badge para acciones */
+    .action-badge {
+        display: inline-flex;
+        align-items: center;
+    }
+</style>
+
+<div class="container-productos">
+    <h2><i class="bi bi-box-seam"></i> Lista de Productos</h2>
+
+    <p>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Crear Nuevo Producto
+        </a>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Nombre</td>
+                    <td class="precio-producto">$@item.Precio.ToString("N2")</td>
+                    <td class="stock-producto @(item.Stock <= 5 ? "stock-bajo" : item.Stock <= 15 ? "stock-medio" : "stock-alto")">
+                        @item.Stock unidades
+                    </td>
+                    <td>
+                        <div class="action-badge">
+                            <a asp-action="Edit" asp-route-id="@item.ProductoID" class="btn btn-warning">
+                                <i class="bi bi-pencil"></i> Editar
+                            </a>
+                            <a asp-action="Details" asp-route-id="@item.ProductoID" class="btn btn-info">
+                                <i class="bi bi-eye"></i> Detalles
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.ProductoID" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Incluir Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">

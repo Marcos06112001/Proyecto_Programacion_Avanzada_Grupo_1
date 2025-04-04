@@ -4,50 +4,130 @@
     ViewData["Title"] = "Clases";
 }
 
-<h1>Clases</h1>
+<!-- Enlaces a Bootstrap 5 y Font Awesome 6 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Crear Nueva Clase</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaHora)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Academia)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaHora)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Academia.Nombre)
-            </td>
-            <td>
-                    <a asp-action="Edit" asp-route-id="@item.ClaseID" class="btn btn-warning">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ClaseID" class="btn btn-info">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ClaseID" class="btn btn-danger">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<style>
+    body {
+        background-color: #f4f6f9;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .card {
+        border-radius: 15px;
+        box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.07);
+    }
+
+    .card-header {
+        background: linear-gradient(to right, #6c5ce7, #5f27cd);
+        color: white;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+
+    h3 {
+        font-weight: bold;
+        margin-bottom: 0;
+    }
+
+    .btn {
+        border-radius: 30px;
+        font-weight: 500;
+    }
+
+    .table thead th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .table td, .table th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .btn-group .btn {
+        margin: 0 3px;
+    }
+
+    .btn-primary {
+        background-color: #6c5ce7;
+        border: none;
+    }
+
+    .btn-warning {
+        background-color: #f39c12;
+        border: none;
+    }
+
+    .btn-info {
+        background-color: #0984e3;
+        border: none;
+    }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        border: none;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+
+    .fa {
+        margin-right: 4px;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header py-3">
+            <h3><i class="fas fa-dumbbell me-2"></i>@ViewData["Title"]</h3>
+        </div>
+        <div class="card-body">
+            <div class="mb-3 text-end">
+                <a asp-action="Create" class="btn btn-primary">
+                    <i class="fas fa-plus-circle"></i> Nueva Clase
+                </a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Fecha y Hora</th>
+                            <th>Academia</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
+                                <td>@item.FechaHora.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>@Html.DisplayFor(modelItem => item.Academia.Nombre)</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a asp-action="Edit" asp-route-id="@item.ClaseID" class="btn btn-sm btn-warning" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.ClaseID" class="btn btn-sm btn-info" title="Detalles">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.ClaseID" class="btn btn-sm btn-danger" title="Eliminar">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
