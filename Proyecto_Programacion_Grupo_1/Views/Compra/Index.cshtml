@@ -1,133 +1,163 @@
 ﻿@model IEnumerable<Proyecto_Programacion_Grupo_1.Models.Compra>
 
 @{
-    ViewData["Title"] = "Lista de Compras";
+    ViewData["Title"] = "Compras";
 }
 
-<!-- Enlaces a Bootstrap 5 y Font Awesome 6 -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
 <style>
+    /* Estilos generales */
     body {
-        background-color: #f4f6f9;
+        background-color: #f8f9fa;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    .card {
-        border-radius: 15px;
-        box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.07);
+    h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-weight: 600;
     }
 
-    .card-header {
-        background: linear-gradient(to right, #6c5ce7, #5f27cd);
-        color: white;
-        border-top-left-radius: 15px;
-        border-top-right-radius: 15px;
+    /* Estilos para la tabla */
+    .table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        margin: 20px 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+        overflow: hidden;
     }
 
-    h3 {
-        font-weight: bold;
-        margin-bottom: 0;
-    }
+        .table thead th {
+            background-color: #6c5ce7;
+            color: white;
+            font-weight: 500;
+            padding: 15px;
+            border: none;
+        }
 
+        .table tbody tr {
+            transition: all 0.2s ease;
+        }
+
+            .table tbody tr:hover {
+                background-color: rgba(108, 92, 231, 0.05);
+            }
+
+        .table td {
+            padding: 12px 15px;
+            border-top: 1px solid #e9ecef;
+            vertical-align: middle;
+        }
+
+    /* Estilos para botones */
     .btn {
-        border-radius: 30px;
+        border-radius: 20px;
+        padding: 6px 12px;
+        font-size: 14px;
         font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: none !important;
     }
 
-    .table thead th {
-        vertical-align: middle;
-        text-align: center;
+    .btn-primary {
+        background-color: #6c5ce7;
+        border-color: #6c5ce7;
     }
 
-    .table td, .table th {
-        vertical-align: middle;
-        text-align: center;
-    }
-
-    .btn-group .btn {
-        margin: 0 3px;
-    }
-
-    .btn-success {
-        background-color: #00b894;
-        border: none;
-    }
+        .btn-primary:hover {
+            background-color: #5649c0;
+            border-color: #5649c0;
+        }
 
     .btn-warning {
         background-color: #f39c12;
-        border: none;
+        border-color: #f39c12;
+        color: white;
     }
 
     .btn-info {
-        background-color: #0984e3;
-        border: none;
+        background-color: #00cec9;
+        border-color: #00cec9;
+        color: white;
     }
 
     .btn-danger {
         background-color: #e74c3c;
-        border: none;
+        border-color: #e74c3c;
     }
 
-    .btn:hover {
-        opacity: 0.9;
+    /* Efectos hover para botones */
+    .btn-warning:hover {
+        background-color: #d68910;
+        border-color: #d68910;
     }
 
-    .fa {
-        margin-right: 4px;
+    .btn-info:hover {
+        background-color: #00b5ad;
+        border-color: #00b5ad;
+    }
+
+    .btn-danger:hover {
+        background-color: #c0392b;
+        border-color: #c0392b;
+    }
+
+    /* Contenedor principal */
+    .container-compras {
+        background-color: white;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Estilo para la fecha */
+    .fecha-compra {
+        font-weight: 500;
+        color: #636e72;
     }
 </style>
 
-<div class="container mt-5">
-    <div class="card shadow">
-        <div class="card-header py-3">
-            <h3><i class="fas fa-shopping-cart me-2"></i>@ViewData["Title"]</h3>
-        </div>
-        <div class="card-body">
-            <div class="mb-3 text-end">
-                <a asp-action="Create" class="btn btn-success">
-                    <i class="fas fa-plus-circle"></i> Nueva Compra
-                </a>
-            </div>
+<div class="container-compras">
+    <h2><i class="bi bi-cart"></i> Compras</h2>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Registrar Nueva Compra
+    </a>
 
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Usuario</th>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Fecha</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>@Html.DisplayFor(modelItem => item.Usuario.Nombre)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Producto.Nombre)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Cantidad)</td>
-                                <td>@item.FechaCompra.ToString("dd/MM/yyyy")</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <a asp-action="Edit" asp-route-id="@item.CompraID" class="btn btn-sm btn-warning" title="Editar">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a asp-action="Details" asp-route-id="@item.CompraID" class="btn btn-sm btn-info" title="Detalles">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a asp-action="Delete" asp-route-id="@item.CompraID" class="btn btn-sm btn-danger" title="Eliminar">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var compra in Model)
+            {
+                <tr>
+                    <td>@compra.Usuario?.Nombre</td>
+                    <td>@compra.Producto?.Nombre</td>
+                    <td>@compra.Cantidad</td>
+                    <td class="fecha-compra">@compra.FechaCompra.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@compra.CompraID" class="btn btn-warning">
+                            <i class="bi bi-pencil"></i> Editar
+                        </a>
+                        <a asp-action="Details" asp-route-id="@compra.CompraID" class="btn btn-info">
+                            <i class="bi bi-eye"></i> Detalles
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@compra.CompraID" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
+
+<!-- Incluir Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
