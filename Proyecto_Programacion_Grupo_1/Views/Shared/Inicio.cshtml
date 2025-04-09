@@ -64,11 +64,8 @@
 <body>
     <div class="container">
         <h2>Bienvenido a la Página de Inicio</h2>
-
-        <p>Haz clic en el botón de "Iniciar" para acceder a la página.</p>
-
-        <!-- Botón de Iniciar que redirige a Welcome.cshtml -->
-        <a href="@Url.Action("Welcome", "Home")" class="btn btn-primary">Iniciar</a>
+        <!-- Botón de Iniciar que redirige a _Layout.cshtml -->
+        <a href="@Url.Action("Seleccionar", "Rol")" class="btn btn-primary">Iniciar</a>
     </div>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
