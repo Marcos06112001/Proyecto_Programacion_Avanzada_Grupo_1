@@ -9,7 +9,10 @@ namespace Proyecto_Programacion_Grupo_1.Models
         public int CompraID { get; set; }
 
         public int UsuarioID { get; set; }
-        public int ProductoID { get; set; }
+
+        public int? ProductoID { get; set; }  // Opcional
+        public int? MembresiaID { get; set; } // Opcional
+
         public int Cantidad { get; set; }
 
         public DateTime FechaCompra { get; set; }
@@ -20,5 +23,7 @@ namespace Proyecto_Programacion_Grupo_1.Models
         [ForeignKey("ProductoID")]
         public Producto? Producto { get; set; }
 
+        [ForeignKey("MembresiaID")]
+        public Membresia? Membresia { get; set; }
     }
 }

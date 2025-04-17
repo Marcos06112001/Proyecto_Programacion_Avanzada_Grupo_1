@@ -80,34 +80,6 @@ namespace Proyecto_Programacion_Grupo_1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Compras",
-                columns: table => new
-                {
-                    CompraID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UsuarioID = table.Column<int>(type: "int", nullable: false),
-                    ProductoID = table.Column<int>(type: "int", nullable: false),
-                    Cantidad = table.Column<int>(type: "int", nullable: false),
-                    FechaCompra = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Compras", x => x.CompraID);
-                    table.ForeignKey(
-                        name: "FK_Compras_Productos_ProductoID",
-                        column: x => x.ProductoID,
-                        principalTable: "Productos",
-                        principalColumn: "ProductoID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Compras_Usuarios_UsuarioID",
-                        column: x => x.UsuarioID,
-                        principalTable: "Usuarios",
-                        principalColumn: "UsuarioID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Membresias",
                 columns: table => new
                 {
@@ -177,10 +149,48 @@ namespace Proyecto_Programacion_Grupo_1.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Compras",
+                columns: table => new
+                {
+                    CompraID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UsuarioID = table.Column<int>(type: "int", nullable: false),
+                    ProductoID = table.Column<int>(type: "int", nullable: true),
+                    MembresiaID = table.Column<int>(type: "int", nullable: true),
+                    Cantidad = table.Column<int>(type: "int", nullable: false),
+                    FechaCompra = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Compras", x => x.CompraID);
+                    table.ForeignKey(
+                        name: "FK_Compras_Membresias_MembresiaID",
+                        column: x => x.MembresiaID,
+                        principalTable: "Membresias",
+                        principalColumn: "MembresiaID");
+                    table.ForeignKey(
+                        name: "FK_Compras_Productos_ProductoID",
+                        column: x => x.ProductoID,
+                        principalTable: "Productos",
+                        principalColumn: "ProductoID");
+                    table.ForeignKey(
+                        name: "FK_Compras_Usuarios_UsuarioID",
+                        column: x => x.UsuarioID,
+                        principalTable: "Usuarios",
+                        principalColumn: "UsuarioID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Clases_AcademiaID",
                 table: "Clases",
                 column: "AcademiaID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Compras_MembresiaID",
+                table: "Compras",
+                column: "MembresiaID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Compras_ProductoID",
@@ -220,13 +230,13 @@ namespace Proyecto_Programacion_Grupo_1.Migrations
                 name: "Compras");
 
             migrationBuilder.DropTable(
-                name: "Membresias");
-
-            migrationBuilder.DropTable(
                 name: "Pagos");
 
             migrationBuilder.DropTable(
                 name: "ReservasClase");
+
+            migrationBuilder.DropTable(
+                name: "Membresias");
 
             migrationBuilder.DropTable(
                 name: "Productos");

@@ -1,0 +1,104 @@
+﻿@{
+    Layout = null;
+}
+@model IEnumerable<Proyecto_Programacion_Grupo_1.Models.Producto>
+
+@{
+    ViewData["Title"] = "Catálogo de Productos";
+}
+
+<style>
+    .container-catalogo {
+        background-color: white;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        margin-bottom: 30px;
+    }
+
+    .table thead th {
+        background-color: #6c5ce7;
+        color: white;
+        font-weight: 500;
+        padding: 15px;
+        border: none;
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(108, 92, 231, 0.05);
+    }
+
+    .btn-success {
+        border-radius: 20px;
+        padding: 6px 12px;
+        font-size: 14px;
+        font-weight: 500;
+        background-color: #00b894;
+        border-color: #00b894;
+    }
+
+        .btn-success:hover {
+            background-color: #019875;
+            border-color: #019875;
+        }
+
+    .link-group a {
+        margin-right: 15px;
+        font-weight: 500;
+        color: #6c5ce7;
+        text-decoration: none;
+    }
+
+        .link-group a:hover {
+            text-decoration: underline;
+        }
+
+    h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+</style>
+
+<div class="container-catalogo">
+    <h2><i class="bi bi-bag"></i> Productos Disponibles</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Nombre</td>
+                    <td>@item.Precio.ToString("C")</td>
+                    <td>@item.Stock</td>
+                    <td>
+                        <form asp-controller="Compra" asp-action="Agregar" method="post" class="d-flex align-items-center gap-2">
+                            <input type="hidden" name="productoId" value="@item.ProductoID" />
+                            <input type="number" name="cantidad" value="1" min="1" max="@item.Stock" class="form-control form-control-sm w-25" />
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="bi bi-cart-plus"></i> Agregar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="link-group mt-4">
+        <a asp-controller="Compra" asp-action="Tienda"><i class="bi bi-cart3"></i> Ver carrito</a>
+        <a asp-controller="Membresia" asp-action="VerMembresias"><i class="bi bi-card-heading"></i> Ver membresías</a>
+        <a asp-controller="Pago" asp-action="RealizarPago"><i class="bi bi-credit-card"></i> Métodos de pago</a>
+    </div>
+</div>
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">

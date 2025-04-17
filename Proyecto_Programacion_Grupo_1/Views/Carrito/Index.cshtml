@@ -1,0 +1,77 @@
+﻿@model Proyecto_Programacion_Grupo_1.Models.CarritoCompra
+
+@{
+    ViewData["Title"] = "Carrito de Compras";
+}
+
+<h2><i class="bi bi-cart"></i> Carrito de Compras</h2>
+
+@if (Model.Items.Any())
+{
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Producto</th>
+                <th>Precio Unitario</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.Producto.Nombre</td>
+                    <td>₡@item.Producto.Precio.ToString("N2")</td>
+                    <td>
+                        <form asp-action="ActualizarCantidad" method="post" class="form-inline">
+                            <input type="hidden" name="productoId" value="@item.ProductoID" />
+                            <input type="number" name="cantidad" value="@item.Cantidad"
+                                   min="1" max="@item.Producto.Stock" class="form-control form-control-sm" style="width: 70px;" />
+                            <button type="submit" class="btn btn-sm btn-outline-primary ml-2">
+                                <i class="bi bi-arrow-clockwise"></i>
+                            </button>
+                        </form>
+                    </td>
+                    <td>₡@item.Subtotal.ToString("N2")</td>
+                    <td>
+                        <form asp-action="Eliminar" method="post">
+                            <input type="hidden" name="productoId" value="@item.ProductoID" />
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="table-active">
+                <td colspan="3" class="text-right font-weight-bold">Total:</td>
+                <td colspan="2" class="font-weight-bold">₡@Model.Total.ToString("N2")</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="d-flex justify-content-between">
+        <a asp-action="Catalogo" asp-controller="Producto" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Seguir comprando
+        </a>
+        <a href="#" class="btn btn-success">
+            <i class="bi bi-credit-card"></i> Finalizar compra
+        </a>
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> Tu carrito está vacío.
+    </div>
+    <a asp-action="Catalogo" asp-controller="Producto" class="btn btn-primary">
+        <i class="bi bi-arrow-left"></i> Volver al catálogo
+    </a>
+}
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">

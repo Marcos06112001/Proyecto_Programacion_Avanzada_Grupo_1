@@ -182,5 +182,44 @@ namespace Proyecto_Programacion_Grupo_1.Controllers
         {
             return _context.Pagos.Any(e => e.PagoID == id);
         }
+
+        // POST: Pago/RealizarPago
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RealizarPago([Bind("Monto,MetodoPago")] Pago pago)
+        {
+           
+            int usuarioId = ObtenerUsuarioActual(); 
+
+            if (ModelState.IsValid)
+            {
+                pago.UsuarioID = usuarioId;
+                pago.FechaPago = DateTime.Now;
+
+                _context.Pagos.Add(pago);
+                await _context.SaveChangesAsync();
+
+                TempData["Mensaje"] = "¡Pago registrado exitosamente!";
+                return RedirectToAction("RealizarPago");
+            }
+
+            ViewBag.MetodosPago = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "Tarjeta", Text = "Tarjeta de Crédito/Débito" },
+        new SelectListItem { Value = "PayPal", Text = "PayPal" },
+        new SelectListItem { Value = "Transferencia", Text = "Transferencia Bancaria" }
+    };
+
+            return View(pago);
+        }
+        private int ObtenerUsuarioActual()
+        {
+            int? usuarioId = HttpContext.Session.GetInt32("UsuarioID");
+
+            if (usuarioId.HasValue)
+                return usuarioId.Value;
+
+            throw new Exception("Usuario no autenticado.");
+        }
     }
 }

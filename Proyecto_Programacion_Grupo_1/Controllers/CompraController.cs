@@ -49,6 +49,7 @@ namespace Proyecto_Programacion_Grupo_1.Controllers
         {
             ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "UsuarioID", "Nombre");
             ViewData["ProductoID"] = new SelectList(_context.Productos, "ProductoID", "Nombre");
+            ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "UsuarioID", "Nombre");
             return View();
         }
 
@@ -178,6 +179,22 @@ namespace Proyecto_Programacion_Grupo_1.Controllers
         private bool CompraExists(int id)
         {
             return _context.Compras.Any(e => e.CompraID == id);
+        }
+        // GET: Compra/Tienda
+        public async Task<IActionResult> Tienda()
+        {
+            var productosDisponibles = await _context.Productos
+                .Where(p => p.Stock > 0)
+                .ToListAsync();
+
+            return View(productosDisponibles);
+        }
+
+        [HttpPost]
+        public IActionResult Agregar(int productoId, int cantidad)
+        {
+            // Aquí iría la lógica para agregar al carrito o crear una compra
+            return RedirectToAction("Index");
         }
     }
 }

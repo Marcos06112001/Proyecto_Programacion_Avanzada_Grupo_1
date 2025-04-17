@@ -12,7 +12,7 @@ using Proyecto_Programacion_Grupo_1.Models;
 namespace Proyecto_Programacion_Grupo_1.Migrations
 {
     [DbContext(typeof(ProyectoContext))]
-    [Migration("20250331161248_Inicial")]
+    [Migration("20250417194835_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -93,13 +93,18 @@ namespace Proyecto_Programacion_Grupo_1.Migrations
                     b.Property<DateTime>("FechaCompra")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ProductoID")
+                    b.Property<int?>("MembresiaID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductoID")
                         .HasColumnType("int");
 
                     b.Property<int>("UsuarioID")
                         .HasColumnType("int");
 
                     b.HasKey("CompraID");
+
+                    b.HasIndex("MembresiaID");
 
                     b.HasIndex("ProductoID");
 
@@ -253,17 +258,21 @@ namespace Proyecto_Programacion_Grupo_1.Migrations
 
             modelBuilder.Entity("Proyecto_Programacion_Grupo_1.Models.Compra", b =>
                 {
+                    b.HasOne("Proyecto_Programacion_Grupo_1.Models.Membresia", "Membresia")
+                        .WithMany()
+                        .HasForeignKey("MembresiaID");
+
                     b.HasOne("Proyecto_Programacion_Grupo_1.Models.Producto", "Producto")
                         .WithMany()
-                        .HasForeignKey("ProductoID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductoID");
 
                     b.HasOne("Proyecto_Programacion_Grupo_1.Models.Usuario", "Usuario")
                         .WithMany("Compras")
                         .HasForeignKey("UsuarioID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Membresia");
 
                     b.Navigation("Producto");
 

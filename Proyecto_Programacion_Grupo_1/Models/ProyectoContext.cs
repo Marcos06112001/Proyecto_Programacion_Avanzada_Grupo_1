@@ -11,6 +11,8 @@ namespace Proyecto_Programacion_Grupo_1.Models
         public DbSet<Academia> Academias { get; set; }
         public DbSet<ReservaClase> ReservasClase { get; set; }
         public DbSet<Compra> Compras { get; set; }
+        public DbSet<CarritoItem> Carrito { get; set; }
+        public DbSet<CarritoCompra> Carritoc { get; set; }
         public DbSet<Pago> Pagos { get; set; }
 
         public ProyectoContext(DbContextOptions<ProyectoContext> options)

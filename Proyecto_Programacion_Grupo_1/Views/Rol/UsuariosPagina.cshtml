@@ -10,12 +10,18 @@
                 ¡Disfruta de tu experiencia en nuestro sitio web!
             </div>
 
-            <!-- Botón de Cerrar Sesión agregado -->
-            <div class="mt-4">
-                <a asp-controller="Rol" asp-action="Seleccionar" class="btn btn-danger">
-                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-                </a>
-            </div>
+            <!-- Menú del usuario -->
+            <ul class="list-group my-4">
+                <li class="list-group-item"><a asp-controller="Producto" asp-action="Catalogo"><i class="fas fa-box me-2"></i> Productos</a></li>
+                <li class="list-group-item"><a asp-controller="Membresia" asp-action="VerMembresias"><i class="fas fa-id-card me-2"></i> Membresías</a></li>
+                <li class="list-group-item"><a asp-controller="Compra" asp-action="Tienda"><i class="fas fa-shopping-cart me-2"></i> Compras</a></li>
+                <li class="list-group-item"><a asp-controller="Pago" asp-action="RealizarPago"><i class="fas fa-credit-card me-2"></i> Pagos</a></li>
+            </ul>
+
+            <!-- Botón de Cerrar Sesión -->
+            <a asp-controller="Rol" asp-action="Seleccionar" class="btn btn-danger">
+                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+            </a>
         </div>
     </div>
 </div>

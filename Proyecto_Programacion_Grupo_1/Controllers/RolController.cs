@@ -40,6 +40,8 @@ namespace Proyecto_Programacion_Grupo_1.Controllers
                 ModelState.AddModelError(string.Empty, "Correo o Contraseña incorrectos.");
                 return View(); // Si las credenciales no son correctas
             }
+            // Guardar UsuarioID en la sesión
+            HttpContext.Session.SetInt32("UsuarioID", usuario.UsuarioID);
 
             // Verificar si el rol seleccionado es Admin (Administrador) o Usuario
             if (usuario.Rol == "Admin" && rol == "Administrador")

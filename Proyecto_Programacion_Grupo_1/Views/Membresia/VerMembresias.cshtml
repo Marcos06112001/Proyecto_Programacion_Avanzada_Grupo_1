@@ -1,0 +1,110 @@
+﻿@{
+    Layout = null;
+}
+@model IEnumerable<Proyecto_Programacion_Grupo_1.Models.Membresia>
+
+@{
+    ViewData["Title"] = "Membresías";
+}
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+
+    .table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        margin: 20px 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .table thead th {
+            background-color: #6c5ce7;
+            color: white;
+            font-weight: 500;
+            padding: 15px;
+            border: none;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(108, 92, 231, 0.05);
+        }
+
+        .table td {
+            padding: 12px 15px;
+            border-top: 1px solid #e9ecef;
+            vertical-align: middle;
+        }
+
+    .btn {
+        border-radius: 20px;
+        padding: 6px 12px;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: none !important;
+    }
+
+    .btn-primary {
+        background-color: #6c5ce7;
+        border-color: #6c5ce7;
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background-color: #5649c0;
+            border-color: #5649c0;
+        }
+
+    .container-membresias {
+        background-color: white;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+</style>
+
+<div class="container-membresias">
+    <h2><i class="bi bi-card-checklist"></i> Membresías disponibles</h2>
+
+    <table class="table text-center">
+        <thead class="bg-primary text-white">
+            <tr>
+                <th>Tipo</th>
+                <th>Precio</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Tipo</td>
+                    <td>₡@item.Precio.ToString("N2")</td>
+                    <td>
+                        <form asp-controller="Membresia" asp-action="Adquirir" method="post">
+                            <input type="hidden" name="membresiaId" value="@item.MembresiaID" />
+                            <button class="btn btn-primary rounded-pill" type="submit">
+                                <i class="bi bi-lock-fill"></i> Adquirir
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">

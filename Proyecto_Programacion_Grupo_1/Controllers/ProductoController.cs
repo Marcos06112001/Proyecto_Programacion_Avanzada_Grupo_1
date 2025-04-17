@@ -111,5 +111,15 @@ namespace Proyecto_Programacion_Grupo_1.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+        // GET: Producto/Catalogo
+        public async Task<IActionResult> Catalogo()
+        {
+            var productosDisponibles = await _context.Productos
+                .Where(p => p.Stock > 0)
+                .ToListAsync();
+
+            return View(productosDisponibles);
+        }
     }
 }

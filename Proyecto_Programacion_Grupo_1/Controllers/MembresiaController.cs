@@ -124,5 +124,48 @@ namespace Proyecto_Programacion_Grupo_1.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+        // GET: Membresia/VerMembresias
+        public async Task<IActionResult> VerMembresias()
+        {
+            var membresiasDisponibles = await _context.Membresias
+                .Include(m => m.Usuario)
+                .ToListAsync();
+
+            return View(membresiasDisponibles);
+        }
+        [HttpPost]
+        public IActionResult Adquirir(int membresiaId)
+        {
+            int usuarioId = ObtenerUsuarioActual();
+
+            var membresia = _context.Membresias.FirstOrDefault(m => m.MembresiaID == membresiaId);
+            if (membresia == null)
+                return NotFound();
+
+            var compra = new Compra
+            {
+                UsuarioID = usuarioId,
+                MembresiaID = membresia.MembresiaID,
+                Cantidad = 1,
+                FechaCompra = DateTime.Now
+            };
+
+            _context.Compras.Add(compra);
+            _context.SaveChanges();
+
+            TempData["Mensaje"] = "¡Membresía adquirida correctamente!";
+            return RedirectToAction("VerMembresias");
+        }
+        private int ObtenerUsuarioActual()
+        {
+            int? id = HttpContext.Session.GetInt32("UsuarioID");
+            if (id == null || !_context.Usuarios.Any(u => u.UsuarioID == id))
+            {
+                throw new Exception("El usuario actual no es válido o no está autenticado.");
+            }
+
+            return id.Value;
+        }
     }
 }
