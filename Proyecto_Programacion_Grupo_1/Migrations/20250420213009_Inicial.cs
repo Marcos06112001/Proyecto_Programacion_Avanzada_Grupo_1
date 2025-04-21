@@ -150,6 +150,31 @@ namespace Proyecto_Programacion_Grupo_1.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Carrito",
+                columns: table => new
+                {
+                    CarritoItemId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductoID = table.Column<int>(type: "int", nullable: true),
+                    MembresiaID = table.Column<int>(type: "int", nullable: true),
+                    Cantidad = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Carrito", x => x.CarritoItemId);
+                    table.ForeignKey(
+                        name: "FK_Carrito_Membresias_MembresiaID",
+                        column: x => x.MembresiaID,
+                        principalTable: "Membresias",
+                        principalColumn: "MembresiaID");
+                    table.ForeignKey(
+                        name: "FK_Carrito_Productos_ProductoID",
+                        column: x => x.ProductoID,
+                        principalTable: "Productos",
+                        principalColumn: "ProductoID");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Compras",
                 columns: table => new
                 {
@@ -181,6 +206,16 @@ namespace Proyecto_Programacion_Grupo_1.Migrations
                         principalColumn: "UsuarioID",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Carrito_MembresiaID",
+                table: "Carrito",
+                column: "MembresiaID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Carrito_ProductoID",
+                table: "Carrito",
+                column: "ProductoID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Clases_AcademiaID",
@@ -226,6 +261,9 @@ namespace Proyecto_Programacion_Grupo_1.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Carrito");
+
             migrationBuilder.DropTable(
                 name: "Compras");
 

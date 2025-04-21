@@ -183,17 +183,69 @@ namespace Proyecto_Programacion_Grupo_1.Controllers
         // GET: Compra/Tienda
         public async Task<IActionResult> Tienda()
         {
-            var productosDisponibles = await _context.Productos
-                .Where(p => p.Stock > 0)
-                .ToListAsync();
+            var productos = await _context.Productos.Where(p => p.Stock > 0).ToListAsync();
+            var membresias = await _context.Membresias.ToListAsync();
 
-            return View(productosDisponibles);
+            // Solución: convertir a IEnumerable explícitamente
+            IEnumerable<Producto> productosEnumerable = productos;
+            IEnumerable<Membresia> membresiasEnumerable = membresias;
+
+            return View(Tuple.Create(productosEnumerable, membresiasEnumerable));
         }
 
         [HttpPost]
-        public IActionResult Agregar(int productoId, int cantidad)
+        public async Task<IActionResult> Agregar(int productoId, int cantidad, string tipo = "producto")
         {
-            // Aquí iría la lógica para agregar al carrito o crear una compra
+            var usuarioId = 2; //  Reemplazar por el ID real del usuario logueado
+
+            if (tipo == "producto")
+            {
+                var producto = await _context.Productos.FindAsync(productoId);
+                if (producto == null || producto.Stock < cantidad)
+                {
+                    TempData["Error"] = "Producto no disponible o stock insuficiente.";
+                    return RedirectToAction("Tienda");
+                }
+
+                var compra = new Compra
+                {
+                    UsuarioID = usuarioId,
+                    ProductoID = productoId,
+                    Cantidad = cantidad,
+                    FechaCompra = DateTime.Now
+                };
+
+                producto.Stock -= cantidad;
+                _context.Update(producto);
+
+                _context.Compras.Add(compra);
+                await _context.SaveChangesAsync();
+
+                TempData["Mensaje"] = "¡Producto comprado con éxito!";
+            }
+            else if (tipo == "membresia")
+            {
+                var membresia = await _context.Membresias.FindAsync(productoId);
+                if (membresia == null)
+                {
+                    TempData["Error"] = "Membresía no encontrada.";
+                    return RedirectToAction("Tienda");
+                }
+
+                var compra = new Compra
+                {
+                    UsuarioID = usuarioId,
+                    ProductoID = productoId, // Usamos el mismo campo para simplificar
+                    Cantidad = 1,
+                    FechaCompra = DateTime.Now
+                };
+
+                _context.Compras.Add(compra);
+                await _context.SaveChangesAsync();
+
+                TempData["Mensaje"] = "¡Membresía comprada con éxito!";
+            }
+
             return RedirectToAction("Index");
         }
     }

@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutUsuario.cshtml";
 }
 @model IEnumerable<Proyecto_Programacion_Grupo_1.Models.Membresia>
 
@@ -93,10 +93,11 @@
                     <td>@item.Tipo</td>
                     <td>₡@item.Precio.ToString("N2")</td>
                     <td>
-                        <form asp-controller="Membresia" asp-action="Adquirir" method="post">
+                        <form asp-controller="Carrito" asp-action="AgregarMembresia" method="post">
                             <input type="hidden" name="membresiaId" value="@item.MembresiaID" />
+                            <input type="hidden" name="cantidad" value="1" />
                             <button class="btn btn-primary rounded-pill" type="submit">
-                                <i class="bi bi-lock-fill"></i> Adquirir
+                                <i class="bi bi-cart-plus"></i> Agregar al carrito
                             </button>
                         </form>
                     </td>

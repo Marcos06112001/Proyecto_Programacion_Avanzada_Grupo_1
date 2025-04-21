@@ -1,0 +1,151 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutUsuario.cshtml";
+}
+@model List<Proyecto_Programacion_Grupo_1.Models.CarritoItem>
+
+@{
+    ViewData["Title"] = "Mi Carrito";
+    decimal total = Model.Sum(item => item.Subtotal);
+}
+
+<style>
+    .carrito-container {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-top: 30px;
+    }
+
+    .table-carrito {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table-carrito th,
+        .table-carrito td {
+            padding: 15px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table-carrito th {
+            background-color: #6c5ce7;
+            color: white;
+            font-weight: 600;
+        }
+
+        .table-carrito tbody tr:nth-child(odd) {
+            background-color: #f8f9fa;
+        }
+
+    .total {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #2d3436;
+        text-align: right;
+        margin-top: 20px;
+    }
+
+    .empty-message {
+        text-align: center;
+        font-size: 1.2rem;
+        color: #636e72;
+        padding: 30px;
+    }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: white;
+        transition: background-color 0.3s;
+    }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+</style>
+
+<div class="carrito-container">
+    <h2><i class="bi bi-cart4"></i> Mi Carrito</h2>
+
+    @if (Model.Count == 0)
+    {
+        <div class="empty-message">
+            <i class="bi bi-cart-x fs-1"></i><br />
+            Tu carrito está vacío.
+        </div>
+    }
+    else
+    {
+        <table class="table-carrito">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @(item.Producto != null ? "Producto" : "Membresía")
+                        </td>
+                        <td>
+                            @if (item.Producto != null)
+                            {
+                                @item.Producto.Nombre
+                            }
+                            else if (item.Membresia != null)
+                            {
+                                <text>Membresía @item.Membresia.Tipo</text>
+                            }
+                        </td>
+                        <td>
+                            ₡@((item.Producto?.Precio ?? item.Membresia?.Precio).Value.ToString("N2"))
+                        </td>
+                        <td>
+                            @item.Cantidad
+                        </td>
+                        <td>
+                            ₡@((item.Cantidad * (item.Producto?.Precio ?? item.Membresia?.Precio)).Value.ToString("N2"))
+                        </td>
+                        <td>
+                            <form asp-action="EliminarDelCarrito" method="post">
+                                <input type="hidden" name="id" value="@item.CarritoItemId" />
+                                <button type="submit" class="btn btn-primary rounded-pill">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" style="text-align:right"><strong>Total:</strong></td>
+                    <td><strong>₡@Model.Sum(item => item.Cantidad * (item.Producto?.Precio ?? item.Membresia?.Precio)).Value.ToString("N2")</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="total">
+            Total: ₡@total.ToString("N2")
+        </div>
+
+        <button class="btn btn-primary rounded-pill" type="submit">
+            <i class="bi bi-cart-plus"></i> Realizar Pago
+        </button>
+      
+    }
+</div>
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">

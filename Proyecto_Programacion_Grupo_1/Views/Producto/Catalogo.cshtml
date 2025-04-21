@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutUsuario.cshtml";
 }
 @model IEnumerable<Proyecto_Programacion_Grupo_1.Models.Producto>
 
@@ -58,8 +58,9 @@
                     <h5 class="card-title">@item.Nombre</h5>
                     <p class="card-text"><i class="bi bi-currency-dollar"></i> Precio: ₡@item.Precio</p>
                     <p class="card-text"><i class="bi bi-boxes"></i> Stock: @item.Stock unidades</p>
-                    <form asp-controller="Carrito" asp-action="Agregar" method="post">
+                    <form asp-controller="Carrito" asp-action="AgregarProducto" method="post">
                         <input type="hidden" name="productoId" value="@item.ProductoID" />
+                        <input type="hidden" name="cantidad" value="1" />
                         <button type="submit" class="btn btn-agregar">
                             <i class="bi bi-cart-plus"></i> Agregar al carrito
                         </button>

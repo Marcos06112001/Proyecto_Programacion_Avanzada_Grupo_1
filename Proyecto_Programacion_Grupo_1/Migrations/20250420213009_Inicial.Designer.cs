@@ -12,7 +12,7 @@ using Proyecto_Programacion_Grupo_1.Models;
 namespace Proyecto_Programacion_Grupo_1.Migrations
 {
     [DbContext(typeof(ProyectoContext))]
-    [Migration("20250417194835_Inicial")]
+    [Migration("20250420213009_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -48,6 +48,32 @@ namespace Proyecto_Programacion_Grupo_1.Migrations
                     b.HasKey("AcademiaID");
 
                     b.ToTable("Academias");
+                });
+
+            modelBuilder.Entity("Proyecto_Programacion_Grupo_1.Models.CarritoItem", b =>
+                {
+                    b.Property<int>("CarritoItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarritoItemId"));
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MembresiaID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductoID")
+                        .HasColumnType("int");
+
+                    b.HasKey("CarritoItemId");
+
+                    b.HasIndex("MembresiaID");
+
+                    b.HasIndex("ProductoID");
+
+                    b.ToTable("Carrito");
                 });
 
             modelBuilder.Entity("Proyecto_Programacion_Grupo_1.Models.Clase", b =>
@@ -243,6 +269,21 @@ namespace Proyecto_Programacion_Grupo_1.Migrations
                     b.HasKey("UsuarioID");
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("Proyecto_Programacion_Grupo_1.Models.CarritoItem", b =>
+                {
+                    b.HasOne("Proyecto_Programacion_Grupo_1.Models.Membresia", "Membresia")
+                        .WithMany()
+                        .HasForeignKey("MembresiaID");
+
+                    b.HasOne("Proyecto_Programacion_Grupo_1.Models.Producto", "Producto")
+                        .WithMany()
+                        .HasForeignKey("ProductoID");
+
+                    b.Navigation("Membresia");
+
+                    b.Navigation("Producto");
                 });
 
             modelBuilder.Entity("Proyecto_Programacion_Grupo_1.Models.Clase", b =>
