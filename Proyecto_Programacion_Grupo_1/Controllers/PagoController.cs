@@ -19,6 +19,11 @@ namespace Proyecto_Programacion_Grupo_1.Controllers
             _context = context;
         }
 
+        public IActionResult CompraFinaliza()
+        {
+            return View(); // Retorna la vista CompraFinaliza.cshtml
+        }
+
         // GET: Pago
         public async Task<IActionResult> Index()
         {

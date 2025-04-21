@@ -60,11 +60,15 @@
                     <p class="card-text"><i class="bi bi-boxes"></i> Stock: @item.Stock unidades</p>
                     <form asp-controller="Carrito" asp-action="AgregarProducto" method="post">
                         <input type="hidden" name="productoId" value="@item.ProductoID" />
-                        <input type="hidden" name="cantidad" value="1" />
+                        <div class="mb-2">
+                            <label for="cantidad_@item.ProductoID" class="form-label">Cantidad:</label>
+                            <input type="number" name="cantidad" id="cantidad_@item.ProductoID" class="form-control" value="1" min="1" max="@item.Stock" style="width: 100px;" />
+                        </div>
                         <button type="submit" class="btn btn-agregar">
                             <i class="bi bi-cart-plus"></i> Agregar al carrito
                         </button>
                     </form>
+
                 </div>
             </div>
         </div>

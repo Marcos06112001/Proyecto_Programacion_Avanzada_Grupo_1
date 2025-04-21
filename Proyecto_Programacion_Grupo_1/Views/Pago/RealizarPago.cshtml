@@ -95,12 +95,6 @@
             <select asp-for="MetodoPago" asp-items="ViewBag.MetodosPago" class="form-control" required>
                 <option value="">Seleccione un método</option>
             </select>
-            <span asp-validation-for="MetodoPago" class="text-danger"></span>
-        </div>
-
-        <!-- Mensaje dinámico -->
-        <div id="mensaje-exito" class="alert alert-success mt-3 d-none">
-            <i class="bi bi-check-circle"></i> Pago realizado correctamente.
         </div>
 
         <div class="d-flex justify-content-between">
@@ -122,19 +116,8 @@
 
     <script>
         document.getElementById("btnConfirmarPago").addEventListener("click", function () {
-            const mensaje = document.getElementById("mensaje-exito");
-
-            // Mostrar mensaje
-            mensaje.classList.remove("d-none");
-
-            // Cambiar texto y deshabilitar botón
-            this.disabled = true;
-            this.innerHTML = '<i class="bi bi-check-circle"></i> Pago Confirmado';
-
-            // Refrescar página después de 2.5 segundos
-            setTimeout(() => {
-                location.reload();
-            }, 2500);
+            // Redirigir a la vista CompraFinaliza
+            window.location.href = '@Url.Action("CompraFinaliza", "Pago")';
         });
     </script>
 }
