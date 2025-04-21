@@ -1,10 +1,8 @@
-﻿@{
-    Layout = "~/Views/Shared/_LayoutUsuario.cshtml";
-}
-@model Proyecto_Programacion_Grupo_1.Models.Pago
-
+﻿@model Proyecto_Programacion_Grupo_1.Models.Pago
 @{
+    Layout = "~/Views/Shared/_LayoutUsuario.cshtml";
     ViewData["Title"] = "Realizar Pago";
+    decimal total = ViewBag.TotalCarrito;
 }
 
 <style>
@@ -49,32 +47,70 @@
         border-radius: 10px;
         font-weight: 500;
     }
+
+    .total-display {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .readonly-input {
+        background-color: #e9ecef;
+        cursor: not-allowed;
+    }
 </style>
 
 <div class="container-pago">
-    <h2><i class="bi bi-credit-card"></i> Realizar un Pago</h2>
+    <h2><i class="bi bi-credit-card"></i> Realizar Pago</h2>
 
-    @if (TempData["Mensaje"] != null)
+    @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success"><i class="bi bi-check-circle"></i> @TempData["Mensaje"]</div>
+        <div class="alert alert-success"><i class="bi bi-check-circle"></i> @TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger"><i class="bi bi-exclamation-circle"></i> @TempData["ErrorMessage"]</div>
     }
 
-    <form asp-action="RealizarPago" method="post" novalidate>
+    <div class="total-display">
+        <i class="bi bi-cart-check"></i> Total del Carrito: ₡@total.ToString("N2")
+    </div>
+
+    <form id="formPago" novalidate>
+        <!-- Campo oculto para el monto -->
+        <input type="hidden" asp-for="Monto" value="@total" />
+
+        <!-- Mostrar monto -->
         <div class="form-group mb-3">
-            <label asp-for="Monto"></label>
-            <input asp-for="Monto" class="form-control" />
-            <span asp-validation-for="Monto" class="text-danger"></span>
+            <label>Monto a Pagar</label>
+            <input value="₡@total.ToString("N2")" class="form-control readonly-input" readonly />
         </div>
 
         <div class="form-group mb-4">
             <label asp-for="MetodoPago">Método de Pago</label>
-            <select asp-for="MetodoPago" asp-items="ViewBag.MetodosPago" class="form-control"></select>
+            <select asp-for="MetodoPago" asp-items="ViewBag.MetodosPago" class="form-control" required>
+                <option value="">Seleccione un método</option>
+            </select>
             <span asp-validation-for="MetodoPago" class="text-danger"></span>
         </div>
 
-        <button type="submit" class="btn btn-primary">
-            <i class="bi bi-credit-card-2-front"></i> Pagar
-        </button>
+        <!-- Mensaje dinámico -->
+        <div id="mensaje-exito" class="alert alert-success mt-3 d-none">
+            <i class="bi bi-check-circle"></i> Pago realizado correctamente.
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a href="@Url.Action("VerCarrito", "Carrito")" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Volver al Carrito
+            </a>
+            <button type="button" class="btn btn-primary" id="btnConfirmarPago">
+                <i class="bi bi-credit-card-2-front"></i> Confirmar Pago
+            </button>
+        </div>
     </form>
 </div>
 
@@ -82,7 +118,23 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        document.getElementById("btnConfirmarPago").addEventListener("click", function () {
+            const mensaje = document.getElementById("mensaje-exito");
+
+            // Mostrar mensaje
+            mensaje.classList.remove("d-none");
+
+            // Cambiar texto y deshabilitar botón
+            this.disabled = true;
+            this.innerHTML = '<i class="bi bi-check-circle"></i> Pago Confirmado';
+
+            // Refrescar página después de 2.5 segundos
+            setTimeout(() => {
+                location.reload();
+            }, 2500);
+        });
+    </script>
 }

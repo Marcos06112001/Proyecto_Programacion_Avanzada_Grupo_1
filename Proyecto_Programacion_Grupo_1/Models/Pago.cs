@@ -13,7 +13,7 @@ namespace Proyecto_Programacion_Grupo_1.Models
         [Required]
         public decimal Monto { get; set; }
 
-        public string MetodoPago { get; set; } // Tarjeta, PayPal, Transferencia
+        public string MetodoPago { get; set; } // Sinpe, PayPal, Transferencia
 
         public DateTime FechaPago { get; set; }
 

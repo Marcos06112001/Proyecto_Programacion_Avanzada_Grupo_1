@@ -1,7 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Proyecto_Programacion_Grupo_1.Models;
+using Proyecto_Programacion_Grupo_1.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Proyecto_Programacion_Grupo_1.Controllers
 {
@@ -183,43 +188,110 @@ namespace Proyecto_Programacion_Grupo_1.Controllers
             return _context.Pagos.Any(e => e.PagoID == id);
         }
 
-        // POST: Pago/RealizarPago
+        // GET: Pago/RealizarPago
+        public IActionResult RealizarPago()
+        {
+            // Obtener carrito de la sesión usando tu helper
+            var carrito = HttpContext.Session.GetObject<List<CarritoItem>>("Carrito") ?? new List<CarritoItem>();
+
+            if (!carrito.Any())
+            {
+                TempData["ErrorMessage"] = "No hay items en el carrito para procesar el pago";
+                return RedirectToAction("VerCarrito", "Carrito");
+            }
+
+            // Calcular total
+            decimal total = carrito.Sum(item => item.Subtotal);
+
+            // Crear modelo de pago
+            var pago = new Pago
+            {
+                Monto = total,
+                FechaPago = DateTime.Now
+            };
+
+            // Configurar métodos de pago
+            ViewBag.MetodosPago = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "Tarjeta", Text = "Tarjeta de Crédito/Débito" },
+                new SelectListItem { Value = "PayPal", Text = "PayPal" },
+                new SelectListItem { Value = "Transferencia", Text = "Transferencia Bancaria" }
+            };
+
+            // Pasar total a la vista
+            ViewBag.TotalCarrito = total;
+
+            return View("RealizarPago", pago);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RealizarPago([Bind("Monto,MetodoPago")] Pago pago)
+        public async Task<IActionResult> RealizarPago([Bind("MetodoPago")] Pago pago)
         {
-           
-            int usuarioId = ObtenerUsuarioActual(); 
+            // Obtener carrito de la sesión
+            var carrito = HttpContext.Session.GetObject<List<CarritoItem>>("Carrito");
+
+            if (carrito == null || !carrito.Any())
+            {
+                TempData["ErrorMessage"] = "No hay items en el carrito para procesar el pago";
+                return RedirectToAction("VerCarrito", "Carrito");
+            }
+
+            // Calcular total
+            decimal total = carrito.Sum(item => item.Subtotal);
+            var usuarioId = ObtenerUsuarioId();
 
             if (ModelState.IsValid)
             {
-                pago.UsuarioID = usuarioId;
-                pago.FechaPago = DateTime.Now;
+                try
+                {
+                    // Crear registro de pago
+                    var nuevoPago = new Pago
+                    {
+                        UsuarioID = usuarioId,
+                        Monto = total,
+                        MetodoPago = pago.MetodoPago,
+                        FechaPago = DateTime.Now
+                    };
 
-                _context.Pagos.Add(pago);
-                await _context.SaveChangesAsync();
+                    _context.Pagos.Add(nuevoPago);
+                    await _context.SaveChangesAsync();
 
-                TempData["Mensaje"] = "¡Pago registrado exitosamente!";
-                return RedirectToAction("RealizarPago");
+                    // Limpiar carrito después del pago exitoso
+                    HttpContext.Session.Remove("Carrito");
+
+                    TempData["SuccessMessage"] = $"¡Pago de ₡{total:N2} procesado exitosamente!";
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Ocurrió un error al procesar el pago: " + ex.Message);
+                }
             }
 
+            // Si hay errores, recargar vista con datos
             ViewBag.MetodosPago = new List<SelectListItem>
     {
-        new SelectListItem { Value = "Tarjeta", Text = "Tarjeta de Crédito/Débito" },
+        new SelectListItem { Value = "Sinpe", Text = "Sinpe" },
         new SelectListItem { Value = "PayPal", Text = "PayPal" },
         new SelectListItem { Value = "Transferencia", Text = "Transferencia Bancaria" }
     };
 
-            return View(pago);
+            ViewBag.TotalCarrito = total;
+
+            return View("RealizarPago", pago);
         }
-        private int ObtenerUsuarioActual()
+
+
+
+        private int ObtenerUsuarioId()
         {
-            int? usuarioId = HttpContext.Session.GetInt32("UsuarioID");
-
-            if (usuarioId.HasValue)
-                return usuarioId.Value;
-
-            throw new Exception("Usuario no autenticado.");
+            if (HttpContext.Session.GetInt32("UsuarioID") is int usuarioId)
+            {
+                return usuarioId;
+            }
+            throw new UnauthorizedAccessException("Usuario no autenticado");
         }
+
     }
 }
