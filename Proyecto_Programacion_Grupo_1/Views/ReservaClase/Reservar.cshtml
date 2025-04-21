@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Proyecto_Programacion_Grupo_1.Models.Clase>
+@{
+    Layout = "~/Views/Shared/_LayoutUsuario.cshtml";
+}
+@{
+    ViewData["Title"] = "Reservar Clases";
+}
+
+<h1>Clases Disponibles para Reservar</h1>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Academia</th>
+            <th>Fecha y Hora</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+                <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
+                <td>@Html.DisplayFor(modelItem => item.Academia.Nombre)</td>
+                <td>@item.FechaHora.ToString("g")</td>
+                <td>
+                    <form asp-action="Reservar" method="post">
+                        <input type="hidden" name="id" value="@item.ClaseID" />
+                        <button class="btn btn-primary rounded-pill reservar-btn"
+                                data-clase-id="@item.ClaseID" type="button">
+                            <i class="bi bi-calendar-plus"></i> Reservar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal de confirmación -->
+<div class="modal fade" id="reservaExitosaModal" tabindex="-1" aria-labelledby="reservaExitosaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-success">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="reservaExitosaLabel">¡Reserva Exitosa!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                Tu clase fue reservada correctamente. Puedes verla en "Mis Clases".
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".reservar-btn").click(function () {
+                const claseId = $(this).data("clase-id");
+
+                $.ajax({
+                    url: '/ReservaClase/ReservarClaseAjax',
+                    type: 'POST',
+                    data: { claseId: claseId },
+                    success: function (response) {
+                        if (response.success) {
+                            $("#reservaExitosaModal").modal('show');
+                        } else {
+                            alert("Error: " + response.message);
+                        }
+                    },
+                    error: function () {
+                        alert("Error al procesar la solicitud.");
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

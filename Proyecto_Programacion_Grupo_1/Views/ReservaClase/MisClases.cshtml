@@ -1,0 +1,123 @@
+﻿@model IEnumerable<Proyecto_Programacion_Grupo_1.Models.ReservaClase>
+@{
+    Layout = "~/Views/Shared/_LayoutUsuario.cshtml";
+}
+
+@{
+    ViewData["Title"] = "Mis Clases Reservadas";
+}
+<style>
+    .carrito-container {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-top: 30px;
+    }
+
+    .table-carrito {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table-carrito th,
+        .table-carrito td {
+            padding: 15px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table-carrito th {
+            background-color: #6c5ce7;
+            color: white;
+            font-weight: 600;
+        }
+
+        .table-carrito tbody tr:nth-child(odd) {
+            background-color: #f8f9fa;
+        }
+
+    .total {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #2d3436;
+        text-align: right;
+        margin-top: 20px;
+    }
+
+    .empty-message {
+        text-align: center;
+        font-size: 1.2rem;
+        color: #636e72;
+        padding: 30px;
+    }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: white;
+        transition: background-color 0.3s;
+    }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+</style>
+
+<h1>Mis Clases Reservadas</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        No tienes clases reservadas todavía.
+    </div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Clase</th>
+                <th>Descripción</th>
+                <th>Academia</th>
+                <th>Fecha de Clase</th>
+                <th>Fecha de Reserva</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reserva in Model)
+            {
+                <tr>
+                    <td>@reserva.Clase.Nombre</td>
+                    <td>@reserva.Clase.Descripcion</td>
+                    <td>@reserva.Clase.Academia.Nombre</td>
+                    <td>@reserva.Clase.FechaHora.ToString("g")</td>
+                    <td>@reserva.FechaReserva.ToString("g")</td>
+                    <td>
+                        <form asp-action="EliminarDelCarrito" method="post">
+                            <input type="hidden" name="id" value="@reserva.ReservaID" />
+                            <button type="submit" class="btn btn-primary rounded-pill"
+                                    onclick="return confirm('¿Estás seguro que quiere eliminar esta clase?');">
+                                <i class="bi bi-trash"></i> Cancelar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+}

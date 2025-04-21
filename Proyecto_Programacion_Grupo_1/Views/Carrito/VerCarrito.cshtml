@@ -120,8 +120,9 @@
                         <td>
                             <form asp-action="EliminarDelCarrito" method="post">
                                 <input type="hidden" name="id" value="@item.CarritoItemId" />
-                                <button type="submit" class="btn btn-primary rounded-pill">
-                                    <i class="bi bi-trash"></i>
+                                <button type="submit" class="btn btn-primary rounded-pill" 
+                                onclick="return confirm('¿Estás seguro que quiere eliminar este producto?');">
+                                    <i class="bi bi-trash"></i> Cancelar
                                 </button>
                             </form>
                         </td>

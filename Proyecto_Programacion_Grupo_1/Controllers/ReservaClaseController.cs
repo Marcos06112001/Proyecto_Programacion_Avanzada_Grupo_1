@@ -205,4 +205,92 @@ public class ReservaClaseController : Controller
         }
         return RedirectToAction(nameof(Index));
     }
+    public async Task<IActionResult> Reservar()
+    {
+        int? usuarioID = HttpContext.Session.GetInt32("UsuarioID");
+        if (usuarioID == null)
+        {
+            return RedirectToAction("Login", "Usuario");
+        }
+
+        ViewBag.UsuarioID = usuarioID;
+
+        var clases = await _context.Clases.Include(c => c.Academia).ToListAsync();
+        return View(clases);
+    }
+    public async Task<IActionResult> MisClases()
+    {
+        int? usuarioID = HttpContext.Session.GetInt32("UsuarioID");
+        if (usuarioID == null)
+        {
+            return RedirectToAction("Login", "Usuario");
+        }
+
+        var reservas = await _context.ReservasClase
+            .Include(r => r.Clase)
+                .ThenInclude(c => c.Academia)
+            .Where(r => r.UsuarioID == usuarioID)
+            .ToListAsync();
+
+        return View(reservas);
+    }
+
+    [HttpPost]
+    public IActionResult ReservarClaseAjax(int claseId)
+    {
+        try
+        {
+            int? usuarioID = HttpContext.Session.GetInt32("UsuarioID");
+
+            if (usuarioID == null)
+            {
+                return Json(new { success = false, message = "Usuario no autenticado." });
+            }
+
+            // Verificar si la clase existe
+            var clase = _context.Clases.FirstOrDefault(c => c.ClaseID == claseId);
+            if (clase == null)
+            {
+                return Json(new { success = false, message = "Clase no encontrada." });
+            }
+
+            // Verificar si ya existe una reserva para este usuario y esta clase
+            bool yaReservada = _context.ReservasClase
+                .Any(r => r.ClaseID == claseId && r.UsuarioID == usuarioID);
+
+            if (yaReservada)
+            {
+                return Json(new { success = false, message = "Ya reservaste esta clase." });
+            }
+
+            // Crear una nueva reserva
+            var nuevaReserva = new ReservaClase
+            {
+                ClaseID = claseId,
+                UsuarioID = usuarioID.Value,
+                FechaReserva = DateTime.Now
+            };
+
+            _context.ReservasClase.Add(nuevaReserva);
+            _context.SaveChanges();
+
+            return Json(new { success = true });
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, message = "Ocurrió un error: " + ex.Message });
+        }
+    }
+    [HttpPost]
+    public async Task<IActionResult> EliminarDelCarrito(int id)
+    {
+        var reserva = await _context.ReservasClase.FindAsync(id);
+        if (reserva != null)
+        {
+            _context.ReservasClase.Remove(reserva);
+            await _context.SaveChangesAsync();
+        }
+
+        return RedirectToAction("MisClases");
+    }
 }
